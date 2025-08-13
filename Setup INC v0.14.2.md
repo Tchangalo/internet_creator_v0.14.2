@@ -211,7 +211,7 @@ EOF
 chmod +x /usr/local/etc/rc.d/qemu-agent.sh
 
 service qemu-guest-agent start
-service qemu-guest-agent start
+service qemu-guest-agent enable
 service qemu-guest-agent status
 ```
 
