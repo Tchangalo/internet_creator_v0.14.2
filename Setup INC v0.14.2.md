@@ -58,7 +58,7 @@ Aktivieren mit:
 
 ## **PVE INSTALLIEREN**
 
-Bei ```ext4``` Swap ausschalten:
+Ggf. Swap ausschalten:
 
 ```swapoff -a```
 
