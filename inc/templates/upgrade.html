@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Upgrade{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div>
+    <h2 class="site-titel">VyOS Upgrade</h2>
+    <form method="post" class="form-container">
+      <label for="provider">Provider:</label>
+      <input type="text" id="provider" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router">First Router:</label>
+          <input type="text" id="first-router" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router">Last Router:</label>
+          <input type="text" id="last-router" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <div>
+        <label for="start-delay">Start Delay:</label>
+        <input type="text" id="start-delay" name="StartDelay" value="">
+      </div>
+
+      <div class="type-fields">
+        <label class="type-label">Release Type:</label>
+        <div class="type-group">
+          <input type="radio" id="stream" name="ReleaseType" value="stream" checked>
+          <label for="stream">Stream</label>
+        </div>  
+
+        <div class="type-group">
+          <input type="radio" id="rolling" name="ReleaseType" value="rolling">
+          <label for="rolling">Rolling</label>
+        </div>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="serial-mode" name="SerialMode">
+        <label for="serial-mode">Serial Mode</label>
+      </div>
+
+      <button type="submit" name="vyos_upgrade">Upgrade VyOS</button>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="site-titel">VyOS Upgrade Fast</h2>
+    <form method="post" class="form-container">
+      <label for="provider-fast">Provider:</label>
+      <input type="text" id="provider-fast" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-fast">First Router:</label>
+          <input type="text" id="first-router-fast" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-fast">Last Router:</label>
+          <input type="text" id="last-router-fast" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <div class="type-fields">
+        <label class="type-label">Release Type:</label>
+        <div class="type-group">
+          <input type="radio" id="stream-fast" name="ReleaseType" value="stream" checked>
+          <label for="stream-fast">Stream</label>
+        </div>  
+
+        <div class="type-group">
+          <input type="radio" id="rolling-fast" name="ReleaseType" value="rolling">
+          <label for="rolling-fast">Rolling</label>
+        </div>
+      </div>
+
+      <button type="submit" name="vyos_upgrade_fast">Upgrade VyOS Fast</button>
+    </form>
+  </div>
+
+  <!-- <div>
+    <h2 class="site-titel">Upgrade MikroTik</h2>
+    <form method="post" class="form-container">
+      <label for="provider-mtk">Provider:</label>
+      <input type="text" id="provider-mtk" name="Provider" value="1" readonly>
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-mtk">First Router:</label>
+          <input type="text" id="first-router-mtk" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-mtk">Last Router:</label>
+          <input type="text" id="last-router-mtk" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <button type="submit" name="mtk_upgrade">Upgrade MikroTik</button>
+    </form>
+  </div> -->
+</div>
+{% endblock %}
+

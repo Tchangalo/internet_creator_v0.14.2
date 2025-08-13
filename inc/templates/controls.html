@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Network Controls{% endblock %}
+
+{% block content %}
+<h2 class="site-titel">Network Controls</h2>
+<div class="wrapper-gen">
+  <div>
+    <h2 class="site-titel">Restart</h2>
+    <form method="post" action="/controls" class="form-container">
+      <label for="provider-restart">Provider:</label>
+      <input type="text" id="provider-restart" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-restart">First Router:</label>
+          <input type="text" id="first-router-restart" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-restart">Last Router:</label>
+          <input type="text" id="last-router-restart" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <label for="start-delay-restart">Start Delay:</label>
+      <input type="text" id="start-delay-restart" name="StartDelay" value="">
+
+      <button type="submit" name="restart">Restart</button>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="site-titel">Start</h2>
+    <form method="post" action="/controls" class="form-container">
+      <label for="provider-start">Provider:</label>
+      <input type="text" id="provider-start" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-start">First Router:</label>
+          <input type="text" id="first-router-start" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-start">Last Router:</label>
+          <input type="text" id="last-router-start" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <label for="start-delay-start">Start Delay:</label>
+      <input type="text" id="start-delay-start" name="StartDelay" value="">
+
+      <button type="submit" name="start">Start</button>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="site-titel">Shutdown</h2>
+    <form method="post" action="/controls" class="form-container">
+      <label for="provider-shutdown">Provider:</label>
+      <input type="text" id="provider-shutdown" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-shutdown">First Router:</label>
+          <input type="text" id="first-router-shutdown" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-shutdown">Last Router:</label>
+          <input type="text" id="last-router-shutdown" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <button type="submit" name="shutdown">Shutdown</button>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="site-titel">Destroy</h2>
+    <form method="post" action="/controls" class="form-container">
+      <label for="provider-destroy">Provider:</label>
+      <input type="text" id="provider-destroy" name="Provider" value="">
+
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-destroy">First Router:</label>
+          <input type="text" id="first-router-destroy" name="FirstRouter" value="">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-destroy">Last Router:</label>
+          <input type="text" id="last-router-destroy" name="LastRouter" value="">
+        </div>
+      </div>
+
+      <button type="submit" name="destroy">Destroy</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

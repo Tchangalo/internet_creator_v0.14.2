@@ -1,0 +1,83 @@
+---
+- name: Get latest VyOS ISO and deploy on routers for upgrading.
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+  vars:
+    vyos_dir_rolling: "vyos-images-rolling/"
+    vyos_dir_stream: "vyos-images-stream/"
+    ansible_user: vyos
+    ansible_password: vyos
+    ansible_network_os: vyos.vyos.vyos
+    ansible_command_timeout: 120
+
+  hosts: router
+  tasks:
+    - name: Set image_dir based on release_type
+      ansible.builtin.set_fact:
+        image_dir: "{{ vyos_dir_rolling if release_type == 'rolling' else vyos_dir_stream }}"
+      run_once: true
+
+    - name: Get latest VyOS ISO URL
+      ansible.builtin.uri:
+        url: https://raw.githubusercontent.com/vyos/vyos-nightly-build/refs/heads/current/version.json
+        method: GET
+        return_content: true
+        status_code: 200
+        body_format: json
+      register: data
+      when: release_type == "rolling"
+      run_once: true
+
+    - name: Extract the ISO URL from content
+      ansible.builtin.set_fact:
+        iso_url: "{{ (data.content | from_json)[0].url }}"
+      when: release_type == "rolling"
+      run_once: true
+
+    - name: Set ISO URL for stream release
+      ansible.builtin.set_fact:
+        iso_url: "https://community-downloads.vyos.dev/stream/1.5-stream-2025-Q1/vyos-1.5-stream-2025-Q1-generic-amd64.iso"
+      when: release_type == "stream"
+      run_once: true
+
+    - name: Set fact iso_name from URL
+      ansible.builtin.set_fact:
+        iso_name: "{{ iso_url.split('/')[-1] }}"
+      run_once: true
+
+    - name: Check if latest VyOS image already exists (and download if not ...)
+      ansible.builtin.stat:
+        path: "{{ image_dir }}{{ iso_name }}"
+      register: image_stat
+      run_once: true
+
+    - name: Download latest VyOS image if it does not exist
+      ansible.builtin.get_url:
+        url: "{{ iso_url }}"
+        dest: "{{ image_dir }}{{ iso_name }}"
+        mode: '0644'
+      when: not image_stat.stat.exists
+      run_once: true
+
+    - name: Copying latest VyOS image to system via SCP
+      shell: "scp {{ image_dir }}{{ iso_name }} {{ ansible_user }}@{{ ansible_host }}:/home/{{ ansible_user }}/{{ iso_name }}"
+      delegate_to: localhost
+      become: no
+      vars:
+        ansible_ssh_pass: "{{ ansible_password }}"
+
+    - name: Installing latest VyOS image on system
+      ansible.netcommon.cli_command:
+        command: add system image "{{ iso_name }}"
+        newline: true
+        check_all: true
+        prompt:
+          - 'What would you like to name this image'
+          - 'Would you like to set the new image as the default one for boot'
+          - 'An active configuration was found'
+          - 'Would you like to copy SSH host keys'
+        answer:
+          - ''
+          - 'y'
+          - 'y'
+          - 'y'

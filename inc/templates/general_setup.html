@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}General Setup{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div>
+    <h2 class="site-titel">Create pfSense</h2>
+    <form method="post" class="form-container">
+      <label for="pfs_node_no">PVE Node No:</label>
+      <input type="text" id="pfs_node_no" name="pfs_node_no" value="">
+      
+      <label for="pfs_iso_name">ISO Name:</label>
+      <input type="text" id="pfs_iso_name" name="pfs_iso_name" value="pfSense-CE-2.7.2-RELEASE-amd64.iso">
+      
+      <button type="submit" name="create_pfsense">Create pfSense</button>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="site-titel">pfSense Postinstall</h2>
+    <form method="post" class="form-container">
+      <label for="pfs_postinstall_node_no">PVE Node No:</label>
+      <input type="text" id="pfs_postinstall_node_no" name="pfs_postinstall_node_no" value="">
+      
+      <div class="type-fields">
+        <label class="type-label">PVE Setup:</label>
+        <div class="type-group">
+          <input type="radio" id="cluster" name="NodeArrangement" value="cluster">
+          <label for="cluster">Cluster</label>
+        </div>  
+
+        <div class="type-group">
+          <input type="radio" id="standalone" name="NodeArrangement" value="standalone" checked>
+          <label for="standalone">Standalone</label>
+        </div>
+      </div>
+              
+      <button type="submit" name="postinstall_pfsense">pfSense Postinstall</button>
+    </form>
+  </div>
+  
+  <div>
+    <h2 class="site-titel">Create DHCP Server</h2>
+    <form method="post" class="form-container">
+      <label for="dhcp_node_no">PVE Node No:</label>
+      <input type="text" id="dhcp_node_no" name="dhcp_node_no" value="">
+      
+      <label for="dhcp_iso_name">ISO Name:</label>
+      <input type="text" id="dhcp_iso_name" name="dhcp_iso_name" value="ubuntu-24.04.3-live-server-amd64.iso">
+      
+      <button type="submit" name="create_dhcp_server">Create Server</button>
+    </form>
+  </div>
+  
+  <div>
+    <h2 class="site-titel">DHCP Server Postinstall<br>and Configuration</h2>
+    <form method="post" class="form-container">
+      <label for="dhcp_server_ip">DHCP Server IP (v4):</label>
+      <input type="text" name="dhcp_server_ip" value="">
+
+      <label for="dhcp_username">DHCP Server Username:</label>
+      <input type="text" id="dhcp_username" name="dhcp_username" value="">
+      
+      <label for="dhcp_user_password">DHCP Server User Password:</label>
+      <input type="password" name="dhcp_user_password" value="">
+
+      <label for="pve_user_password">PVE User Password:</label>
+      <input type="password" name="pve_user_password" value="">
+      
+      <button type="submit" name="postinstall_and_configure_dhcp_server">Postinstall and Configure</button>
+    </form>
+  </div>
+</div>
+
+
+    
+    
+    
+                
+        <button type="submit" name="postinstall_dhcp_server">Server Postinstall</button>
+      </form>
+    </div>
+    
+    
+{% endblock %}

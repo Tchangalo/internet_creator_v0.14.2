@@ -1,0 +1,68 @@
+---
+- name: Configure MTK
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: community.routeros.routeros
+    ansible_network_cli_ssh_type: libssh
+    ansible_ssh_pass: "m"
+    ansible_user: "admin"
+    ansible_host: 192.168.10.11
+    # ansible_network_os: community.network.routeros
+    # ansible_user: admin
+    # ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    # ansible_command_timeout: 120
+    # ansible_ssh_timeout: 120
+    # ansible_password: m
+    # ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q bastion01"'
+    # ansible_become: true
+    # ansible_become_method: enable
+    # ansible_become_password: m
+    # ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    # ansible_connection: ansible.netcommon.httpapi
+    # ansible_httpapi_use_ssl: false
+    # ansible_httpapi_validate_certs: false
+    # ansible_python_interpreter: /usr/bin/python3
+    # ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o ControlPath=/tmp/ansible-ssh-%h-%p-%r"'
+    
+  hosts: router
+
+  tasks:
+    - name: set_interface_mikrotik
+      community.network.routeros_command:
+        commands:
+          - /ip address add address={{ item.ipv4_address }} interface={{ item.interface }}
+      loop: "{{ interfaces }}"
+      loop_control:
+        label: "{{ item.interface }}"
+      tags: interfaces
+      when: os == "mikrotik"
+
+    - name: configure_ospf_instance_area_v4
+      community.network.routeros_command:
+        commands:
+          - /routing ospf instance add disabled=no name={{ ospf.v4.instance }} router-id={{ ospf.router_id }}
+          - /routing ospf area add disabled=no instance={{ ospf.v4.instance }} name={{ ospf.v4.area }}
+      tags: ospf
+      when: os == "mikrotik"
+
+    - name: configure_ospf_interface_template_v4
+      community.network.routeros_command:
+        commands:
+          - /routing ospf interface-template add area={{ ospf.v4.area }} disabled=no interfaces={{ item.interface }} networks={{ item.network }}
+      loop: "{{ ospf.v4.interfaces }}"
+      loop_control:
+        label: "{{ item.interface }}"
+      tags: ospf
+      when: os == "mikrotik"
+      
+    - name: configure_bgp
+      community.network.routeros_command:
+        commands:
+          - /routing bgp connection add address-families=ip as={{ bgp.as }} local.address={{ bgp.router_id }} .role=ibgp name={{ item.description }} nexthop-choice=force-self output.default-originate=if-installed remote.address={{ item.ipv4_address }} .as={{ item.remote_as }} router-id={{ bgp.router_id }} routing-table=main
+      loop: "{{ bgp.neighbors }}"
+      loop_control:
+        label: "{{ item.ipv4_address }}"
+      tags: bgp
+      when: os == "mikrotik"

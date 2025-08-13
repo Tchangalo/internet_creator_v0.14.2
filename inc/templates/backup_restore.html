@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Backup/Restore{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div>
+    <h2 class="site-titel">Backup Routers</h2>
+    <form method="post" class="form-container">             
+      <label for="provider">Provider:</label>
+      <input type="text" id="provider" name="Provider" value="{{ config.get('Provider', '') }}">
+      
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router">First Router:</label>
+          <input type="text" id="first-router" name="FirstRouter" value="{{ config.get('FirstRouter', '') }}">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router">Last Router:</label>
+          <input type="text" id="last-router" name="LastRouter" value="{{ config.get('LastRouter', '') }}">
+        </div>
+      </div>
+
+      <div class="checkbox-label">
+        <input type="checkbox" id="delete-all-backup" name="delete_all" {% if config.get('delete_all', False) %} checked {% endif %}>
+        <label for="delete-all-backup">Delete ALL existing Backups</label>
+      </div>
+
+      <button type="submit" name="backup">Backup</button>
+    </form>
+  </div> 
+
+  <div>
+    <h2 class="site-titel">Backup VM by ID</h2>
+    <form method="post" class="form-container">             
+      <label for="vmid-backup">VM ID:</label>
+      <input type="text" id="vmid-backup" name="vmid" value="{{ config.get('vmid', '') }}">
+      
+      <div class="checkbox-label">
+        <input type="checkbox" id="delete-all-vm" name="delete_all" {% if config.get('delete_all', False) %} checked {% endif %}>
+        <label for="delete-all-vm">Delete ALL existing Backups</label>
+      </div>
+
+      <button type="submit" name="backup_id">Backup VM</button>
+    </form>
+  </div> 
+
+  <div>
+    <h2 class="site-titel">Restore Routers</h2>
+    <form method="post" class="form-container">            
+      <label for="provider-restore">Provider:</label>
+      <input type="text" id="provider-restore" name="Provider" value="{{ config.get('Provider', '') }}">
+      
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router-restore">First Router:</label>
+          <input type="text" id="first-router-restore" name="FirstRouter" value="{{ config.get('FirstRouter', '') }}">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router-restore">Last Router:</label>
+          <input type="text" id="last-router-restore" name="LastRouter" value="{{ config.get('LastRouter', '') }}">
+        </div>
+      </div>
+
+      <label for="start-delay">Start Delay:</label>
+      <input type="text" id="start-delay" name="StartDelay" value="{{ config.get('StartDelay', '') }}">
+
+      <button type="submit" name="restore">Restore</button>
+    </form>
+  </div>
+      
+  <div>
+    <h2 class="site-titel">Restore VM by ID</h2>
+    <form method="post" class="form-container">            
+      <label for="vmid-restore">VM ID:</label>
+      <input type="text" id="vmid-restore" name="vmid" value="{{ config.get('vmid', '') }}">
+      
+      <button type="submit" name="restore_id">Restore VM</button>
+    </form>
+  </div>  
+</div>
+{% endblock %}

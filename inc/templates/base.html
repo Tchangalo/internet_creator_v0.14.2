@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Internet Creator{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='style/icon.png') }}" type="image/png">
+  </head>
+  <body>
+    <header>
+      <h1>Internet Creator v0.14.2</h1>
+    </header>
+
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='style/logo.svg') }}" alt="Logo">
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Topology</a></li>
+        <li><a href="{{ url_for('general_setup') }}">General Setup</a></li>
+        <li><a href="{{ url_for('vyos_setup') }}">VyOS Setup</a></li>
+        <li><a href="{{ url_for('creator') }}">Creator</a></li>
+        <li><a href="{{ url_for('ping_test') }}">Ping Test</a></li>
+        <li><a href="{{ url_for('show_infos') }}">Router Infos</a></li>
+        <li><a href="{{ url_for('backup_restore') }}">Backup/Restore</a></li>
+        <li><a href="{{ url_for('upgrade') }}">VyOS Upgrade</a></li>
+        <li><a href="{{ url_for('controls') }}">Network Controls</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <div id="notification" class="notification">
+      <span id="notification-message"></span>
+    </div>
+
+    <script>
+      function shownotification(message, category) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+    
+        notificationMessage.textContent = message;
+        notification.className = `notification show ${category}`;
+    
+        notification.style.display = 'flex';
+    
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => {
+            notification.style.display = 'none';
+          }, 500);
+        }, 7000);
+      }
+    
+      document.addEventListener('DOMContentLoaded', () => {
+        const messages = JSON.parse('{{ get_flashed_messages(with_categories=true) | tojson | safe }}');
+    
+        if (messages.length > 0) {
+          messages.forEach(([category, message]) => {
+            shownotification(message, category);
+          });
+        } else {
+          document.getElementById('notification').style.display = 'none';
+        }
+      });
+    </script>
+
+    <footer>
+      <p></p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Router Informations{% endblock %}
+
+{% block content %}
+<h2 class="site-titel">Router Informations</h2>
+
+<div class="wrapper2">
+  <main>
+    <form method="post" class="form-container-out">
+      <label for="provider">Provider:</label>
+      <input type="text" id="provider" name="Provider" value=""><br>
+      
+      <label for="router">Router:</label>
+      <input type="text" id="router" name="Router" value=""><br>
+
+      <button type="submit">Show Infos</button>
+    </form>
+  </main>
+
+  <section id="field">
+    <h3 style="word-spacing: 20px;">Configuration Routes (Rules) ARP IPs (Interfaces) (VRF)</h3>
+    <pre id="output"></pre>
+  </section>
+
+  <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+  <script type="text/javascript">
+    const socket = io.connect();
+
+    socket.on('show_infos_output', function(msg) {
+      // Add a new line to the output
+      const outputElement = document.getElementById('output');
+      outputElement.innerText += msg.data + '\n';
+
+      // Scroll down automatically
+      outputElement.scrollTop = outputElement.scrollHeight;
+    });
+  </script>
+</div>
+{% endblock %}

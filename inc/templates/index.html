@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Topology{% endblock %}
+
+{% block content %}
+<div class="toggle-container">
+  <label class="toggle-label">Change Color Scheme</label>
+  <label class="toggle-switch">
+    <input type="checkbox" id="mode-toggle" class="toggle-checkbox">
+    <span class="slider"></span>
+  </label>
+</div>
+
+<script>
+  document.getElementById("mode-toggle").addEventListener("change", function() {
+    const mode = this.checked ? "on" : "off";
+    fetch("/toggle_mode", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ mode: mode })
+    }).catch(error => console.error("Error updating toggle mode:", error));
+  });
+</script>
+
+<div class="image-container">
+  <img src="{{ url_for('static', filename='style/topology.svg') }}">
+</div>
+{% endblock %}

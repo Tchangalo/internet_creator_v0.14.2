@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Ping Test{% endblock %}
+
+{% block content %}
+<h2 class="site-titel">Ping Test</h2>
+
+<div class="wrapper2">
+  <main>
+    <form method="post" class="form-container-out">
+      <label for="provider">Provider:</label>
+      <input type="text" id="provider" name="Provider" value=""><br>
+      
+      <div class="router-fields">
+        <div class="input-group">
+          <label for="first-router">First Router:</label>
+          <input type="text" id="first-router" name="FirstRouter" value="1">
+        </div>
+
+        <div class="input-group">
+          <label for="last-router">Last Router:</label>
+          <input type="text" id="last-router" name="LastRouter" value="">
+        </div>
+      </div>
+      
+      <button type="submit">Start Ping Test</button>
+    </form>
+  </main>
+
+  <section id="field">
+    <h3>Ping Output</h3>
+    <pre id="output"></pre>
+  </section>
+
+  <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+  <script type="text/javascript">
+    const socket = io.connect();
+
+    socket.on('ping_output', function(msg) {
+      // Add a new line to the output
+      const outputElement = document.getElementById('output');
+      outputElement.innerText += msg.data + '\n';
+
+      // Scroll down automatically
+      outputElement.scrollTop = outputElement.scrollHeight;
+    });
+  </script>
+</div>
+{% endblock %}
