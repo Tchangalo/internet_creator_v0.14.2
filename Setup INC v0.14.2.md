@@ -186,9 +186,13 @@ Destination: any
 ```
 
 ### **5. Optional: Qemu Guest Agent enabeln, installieren und aktivieren**
+
 1\) pfSense herunterfahren
+
 2\) Unter Options Qemu Guest Agent enabeln
+
 3\) Per SSH als root auf das pfSense Terminal zugreifen: ```ssh root@<pfSense-IP>```
+
 4\) 
 ```bash
 pkg install -y qemu-guest-agent
