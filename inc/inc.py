@@ -15,7 +15,7 @@ CONTROLS_SCRIPT_DIR = "/home/user/inc/controls/"
 GENERAL_SETUP_DIR = "/home/user/inc/general_setup/"
 SCRIPT_DIR = "/home/user/inc/"
 IMAGE_PATH = "/static/style/topology.svg"
-ipv4_regex = r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\." \
+IPv4_REGEX = r"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\." \
               r"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\." \
               r"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\." \
               r"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
@@ -140,7 +140,7 @@ def general_setup():
                         
             if not dhcp_server_ip or not dhcp_username or not dhcp_user_password or not pve_user_password:
                 errors.append("The field PVE IP (v4) was left empty!")
-            elif not re.match(ipv4_regex, dhcp_server_ip):
+            elif not re.match(IPv4_REGEX, dhcp_server_ip):
                 errors.append("Invalid DHCP Server IP address!")
 
             if errors:
@@ -158,14 +158,17 @@ def general_setup():
 def vyos_setup():
     if request.method == 'POST':
         errors = []
-        if 'create_vyos_qcow2' in request.form:
+        if 'create_seed' in request.form:
+            call_script(SCRIPT_DIR, 'seed.sh', "create_seed")
+
+        elif 'create_vyos_qcow2' in request.form:
             vm_username = request.form.get("VM_Username", "").strip()
             vm_ip = request.form.get("VM_IP", "").strip()
             version_no = request.form.get("VersionNo", "").strip()
             
             if not vm_username or not vm_ip or not version_no:
                 errors.append("At least one field was left empty!")
-            elif not re.match(ipv4_regex, vm_ip):
+            elif not re.match(IPv4_REGEX, vm_ip):
                 errors.append("Invalid VM IP address!")
             
             if errors:
@@ -175,9 +178,6 @@ def vyos_setup():
 
             args = [vm_username, vm_ip, version_no]
             call_script(SCRIPT_DIR, 'start_vyos_qcow2.sh', "create_vyos_qcow2", *args)
-
-        elif 'create_seed' in request.form:
-            call_script(SCRIPT_DIR, 'seed.sh', "create_seed")
 
         return redirect(url_for('vyos_setup'))
     return render_template('vyos_setup.html')
