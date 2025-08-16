@@ -32,8 +32,8 @@ Host r3
   User root
 
 Host u3
-HostName 192.168.10.13
-User user
+  HostName 192.168.10.13
+  User user
 
 Host dhcp3
   HostName 192.168.10.33
