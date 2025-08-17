@@ -50,7 +50,7 @@ create_bridge_if_missing() {
         add_auto_if_missing "$name"
         new_bridges+=("$name")
     else
-        echo -e "${L}Bridge $name already exists. Skipping creation.${NC}"
+        echo -e "${C}Bridge $name already exists. Skipping creation.${NC}"
         add_auto_if_missing "$name"
     fi
 }
