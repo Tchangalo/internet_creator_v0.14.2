@@ -1,4 +1,4 @@
-# **ACHTUNG: Vorläufig teil-deprecated. D.h. das Vyos Cloud Init Image muss händisch erstellt werden mittels build-flavours. Ansonsten sollte das Programm funktionieren.
+# ACHTUNG: Vorläufig teil-deprecated. D.h. das Vyos Cloud Init Image muss händisch erstellt werden mittels build-flavours. Ansonsten sollte das Programm funktionieren.
 
 ## Verwendungszwecke:
 
